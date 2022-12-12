@@ -21,6 +21,7 @@ INSTALLED_APPS = [
 
     # Local apps
     'ecommerce.apps.EcommerceConfig',
+    'users.apps.UsersConfig',
 
     # Third party apps
     'rest_framework',
@@ -56,8 +57,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-
-# Database
+# User & Authentications
+AUTH_USER_MODEL='users.User'
 
 DATABASES = {
     "default": {
@@ -117,3 +118,13 @@ MEDIA_ROOT = BASE_DIR / "mediafiles"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        #'rest_framework.renderers.BrowsableAPIRenderer',
+        'rest_framework.renderers.JSONRenderer',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES':(
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}
