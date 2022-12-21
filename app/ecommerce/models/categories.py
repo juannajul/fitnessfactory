@@ -9,7 +9,7 @@ class Category(models.Model):
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        """Return brand name"""
+        """Return category name"""
         return self.name
 
     class Meta:
