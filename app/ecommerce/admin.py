@@ -3,6 +3,7 @@ from django.contrib import admin
 from ecommerce.models.products import Product
 from ecommerce.models.sizes import Size
 from ecommerce.models.product_media import ProductMedia
+from ecommerce.models.categories import Category
 
 @admin.register(Size)
 class SizesAdmin(admin.ModelAdmin):
@@ -25,7 +26,7 @@ class ProductMediaInline(admin.StackedInline):
 class CustomProductAdmin(admin.ModelAdmin):
     inlines = (SizeInline, ProductMediaInline)
     list_display = ('id', 'name', 'sku', 'stock', 'is_active')
-    list_filter = ('category', 'is_active')
+    list_filter = ('categories', 'is_active')
     search_fields = ('name', 'sku')
     list_display_links = ('name',)
     #actions = ['update_products_stock']
@@ -45,5 +46,6 @@ class CustomProductAdmin(admin.ModelAdmin):
 
 admin.site.register(Product, CustomProductAdmin)
 
+admin.site.register(Category)
 
 

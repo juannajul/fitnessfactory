@@ -21,7 +21,6 @@ class UserModelSerializer(serializers.ModelSerializer):
             'first_name',
             'last_name',
             'email',
-            'credits',
         )
 
 
