@@ -16,17 +16,18 @@ from ecommerce.models.products import Product
 # Serializers
 from ecommerce.serializers.categories import CategoryModelSerializer
 from ecommerce.serializers.product_media import ProductMediaModelSerializer
-from ecommerce.serializers.sizes import SizeModelSerializer, CreateSizeSerializer
+from ecommerce.serializers.sizes import SizeModelSerializer, CreateSizeSerializer, SizeInStockModelSerializer
 
 class ProductModelSerializer(serializers.ModelSerializer):
     """Product model serializer."""
-    category = CategoryModelSerializer(many=True)
-    sizes = SizeModelSerializer(many=True)
+    categories = CategoryModelSerializer(many=True)
+    product_sizes = SizeModelSerializer(many=True)
     product_media = ProductMediaModelSerializer(many=True)
 
     class Meta:
         model = Product
         fields = '__all__'
+    
 
 
 class CreateProductSerializer(serializers.ModelSerializer):

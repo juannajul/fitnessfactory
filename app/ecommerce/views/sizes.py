@@ -26,3 +26,5 @@ class SizesViewSet(
     serializer_class = SizeModelSerializer
     #pagination_class = SizePagination
 
+    #def get_queryset(self): 
+    #    return Size.objects.filter(qty__gt=0)

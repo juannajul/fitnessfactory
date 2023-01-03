@@ -23,5 +23,5 @@ class CategoryViewSet(
 
     queryset = Category.objects.all()
     serializer_class = CategoryModelSerializer
-    #pagination_class = SizePagination
+    lookup_field = 'slug'
 

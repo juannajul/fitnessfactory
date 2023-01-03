@@ -18,8 +18,9 @@ from ecommerce.models.product_media import ProductMedia
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from rest_framework.pagination import PageNumberPagination
+
 # Basket
-#from inventory.basket.basket import Basket
+from ecommerce.basket.basket import Basket
 
 
 
@@ -51,6 +52,10 @@ class ProductViewSet(
         
 
     def get_queryset(self): 
+        if self.action == 'products_in_stock':
+            #product_sizes = Size.objects.filter(qty__gt=0)
+            #print(product_sizes)
+            return Product.objects.filter(product_sizes__qty__gt=0, is_active=True) 
         if self.action == 'product_by_category':
             print(self.kwargs['slug'])
             print(self.args)
@@ -82,6 +87,16 @@ class ProductViewSet(
         serializer = ProductModelSerializer(result_page, many=True)
         return paginator.get_paginated_response(serializer.data)
         
+    @action(detail=False, methods=["get"])
+    def products_in_stock(self, request, *args, **kwargs):
+        """List products by category."""
+        paginator = PageNumberPagination()
+        paginator.page_size = 12
+        products = self.filter_queryset(self.get_queryset())
+        result_page = paginator.paginate_queryset(products, request)
+        serializer = ProductModelSerializer(result_page, many=True)
+        return paginator.get_paginated_response(serializer.data)
+        
         
         """ 
         products = self.filter_queryset(self.get_queryset())
@@ -98,27 +113,25 @@ class ProductViewSet(
         serializer = ProductModelSerializer(result_page, many=True)
         return paginator.get_paginated_response(serializer.data)
 
-    """@action(detail=True, methods=["post"])
+    @action(detail=True, methods=["post"])
     def add_product_basket(self, request, *args, **kwargs):
         # Add products to the bag.
         basket = Basket(request)
         product = self.filter_queryset(self.get_queryset())
         product_size_id = self.request.data['product_size_id']
-        size = self.request.data['size']
-        #print(request.data)
         serializer = ProductModelSerializer(product).data
-        #print(product.category)
-        product_category = " ".join(serializer['category'])
-        #print(product_category)
-        basket.add(serializer, product_size_id, size, product_category)
+        basket.add(serializer, product_size_id)
         basket_qty = basket.__len__()
         basket_total = basket.get_total_price()
-        response = {basket_qty, basket_total}
+        user = str(request.user)
+        auth = str(request.auth)
+        response = {basket_qty, basket_total, user, auth}
         return Response(response, status=status.HTTP_200_OK)
-
+    
+    
     @action(detail=True, methods=["post"])
     def delete_product_basket(self, request, *args, **kwargs):
-        # Add products to the bag.
+        # Delete products to the bag.
         basket = Basket(request)
         product = self.filter_queryset(self.get_queryset())
         product_slug = product.slug
@@ -128,10 +141,10 @@ class ProductViewSet(
         basket_total = basket.get_total_price()
         response = {basket_qty, basket_total}
         return Response(response, status=status.HTTP_200_OK)
-
+    
     @action(detail=True, methods=["post"])
     def update_basket(self, request, *args, **kwargs):
-        #Update products in the bag.
+        # Update products qty in the bag.
         basket = Basket(request)
         product = self.filter_queryset(self.get_queryset())
         product_slug = product.slug
@@ -142,14 +155,14 @@ class ProductViewSet(
         basket_total = basket.get_total_price()
         response = {basket_qty,  basket_total}
         return Response(response, status=status.HTTP_200_OK)
-    
+
     @action(detail=False, methods=["get"])
     def refresh_basket(self, request, *args, **kwargs):
-        #Update products in the bag.
+        # Update products in the bag.
         basket = Basket(request)
         basket.refresh_basket()
         basket_qty = basket.__len__()
         basket_total = basket.get_total_price()
         response = {basket_qty, f"total:${basket_total}"}
         return Response(response, status=status.HTTP_200_OK)
-    """
+    
