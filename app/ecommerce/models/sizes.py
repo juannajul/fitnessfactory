@@ -16,3 +16,5 @@ class Size(models.Model):
     class Meta:
         verbose_name = "Sizes"
         verbose_name_plural = "Sizes"
+        ordering = ["product"]
+            

@@ -28,7 +28,15 @@ class ProductModelSerializer(serializers.ModelSerializer):
         model = Product
         fields = '__all__'
     
+class ProductInStockModelSerializer(serializers.ModelSerializer):
+    """Product model serializer."""
+    categories = CategoryModelSerializer(many=True)
+    product_sizes = SizeInStockModelSerializer(many=True)
+    product_media = ProductMediaModelSerializer(many=True)
 
+    class Meta:
+        model = Product
+        fields = '__all__'
 
 class CreateProductSerializer(serializers.ModelSerializer):
     # Create product serializer.
@@ -71,5 +79,3 @@ class CreateProductSerializer(serializers.ModelSerializer):
             product.categories.add(category)
         product.save()
         return product
-
-        #('name', 'sku', 'slug', 'description', 'gender', 'color', 'brand', 'store_price', 'sale_price', 'user')

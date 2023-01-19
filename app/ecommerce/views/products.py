@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 
 # Serializers
-from ecommerce.serializers.products import ProductModelSerializer, CreateProductSerializer
+from ecommerce.serializers.products import ProductModelSerializer, CreateProductSerializer, ProductInStockModelSerializer
 
 # Models 
 from ecommerce.models.products import Product
@@ -94,7 +94,7 @@ class ProductViewSet(
         paginator.page_size = 12
         products = self.filter_queryset(self.get_queryset())
         result_page = paginator.paginate_queryset(products, request)
-        serializer = ProductModelSerializer(result_page, many=True)
+        serializer = ProductInStockModelSerializer(result_page, many=True)
         return paginator.get_paginated_response(serializer.data)
         
         
