@@ -9,3 +9,4 @@ pytest-django==4.4.0
 pytest-factoryboy
 Pillow
 gunicorn==20.1.0
+django-cors-headers==3.13.0
