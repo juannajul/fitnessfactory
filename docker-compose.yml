@@ -21,7 +21,7 @@ services:
       - POSTGRES_PASSWORD=26584155
       - POSTGRES_DB=fitnessfactory_db_dev
   frontend:
-    build: ./react
+    build: ./frontend
     ports:
       - "3000:3000"
     #stdin_open: true
