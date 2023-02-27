@@ -1,5 +1,3 @@
-import base64
-import json
 from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase, CoreAPIClient
@@ -47,10 +45,11 @@ class ReadCategotyTest(APITestCase):
     def test_list_categories(self):
         response = self.client.get(reverse('ecommerce:category-list'))
         self.assertEqual(status.HTTP_200_OK, response.status_code)
+        print(response)
 
     def test_retrieve_category(self):
-        response = self.client.get(reverse('ecommerce:category-detail', args=[self.category_1.pk]))
-        category = Category.objects.get(pk=self.category_1.pk)
+        response = self.client.get(reverse('ecommerce:category-detail', args=[self.category_1.slug]))
+        category = Category.objects.get(slug=self.category_1.slug)
         self.assertEqual(status.HTTP_200_OK, response.status_code)
         self.assertEqual(response.data['name'], category.name)
         self.assertEqual(response.data['slug'], category.slug)
@@ -71,7 +70,7 @@ class UpdateCategoryTest(APITestCase):
         }
 
     def test_update_category(self):
-        response = self.client.put(reverse('ecommerce:category-detail', args=[self.category.pk]), self.data)
+        response = self.client.put(reverse('ecommerce:category-detail', args=[self.category.slug]), self.data)
         self.assertEqual(status.HTTP_200_OK, response.status_code)
         self.assertEqual(response.data['name'], self.data['name'])
         self.assertEqual(response.data['slug'], self.data['slug'])
@@ -89,6 +88,6 @@ class DeleteCategoryTest(APITestCase):
             is_active = True
         )
     def test_delete_category(self):
-        response = self.client.delete(reverse('ecommerce:category-detail', args=[self.category.pk]))
+        response = self.client.delete(reverse('ecommerce:category-detail', args=[self.category.slug]))
         self.assertEqual(status.HTTP_204_NO_CONTENT, response.status_code)        
         
