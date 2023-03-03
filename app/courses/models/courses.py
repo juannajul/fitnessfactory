@@ -24,7 +24,7 @@ class Course(models.Model):
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.title + self.thumbnail
+        return self.title
     
     class Meta:
         verbose_name_plural = "Courses"
