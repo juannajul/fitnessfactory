@@ -11,6 +11,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/ecommerce/', include(('ecommerce.urls', 'ecommerce'), namespace="ecommerce")),
     path('api/auth/', include(('users.urls', 'users'), namespace="users")),
+    path('api/courses/', include(('courses.urls', 'courses'), namespace="courses")),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ] 
 

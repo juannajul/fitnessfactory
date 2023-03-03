@@ -15,7 +15,7 @@ from ecommerce.models.sizes import Size
 from ecommerce.models.product_media import ProductMedia
 
 # Permissions
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
 
 from rest_framework.pagination import PageNumberPagination
 
@@ -33,9 +33,7 @@ class ProductViewSet(
     viewsets.GenericViewSet):
     """Product view set"""
 
-    #queryset = Product.objects.all()
     lookup_field = 'slug'
-
 
     def get_serializer_class(self):
         """Return serializer based on actions"""
@@ -43,18 +41,14 @@ class ProductViewSet(
             return CreateProductSerializer
         return ProductModelSerializer
 
-    
-    """def get_permissions(self):
+    def get_permissions(self):
         permissions = [IsAuthenticatedOrReadOnly]
-        #if self.action in ['update', 'partial_update', 'destroy']:
-        #    permissions.append(IsBrandOwner)
-        return [p() for p in permissions]"""
+        if self.action in ['update', 'partial_update', 'destroy']:
+            permissions.append(IsAdminUser)
+        return [p() for p in permissions]
         
-
     def get_queryset(self): 
         if self.action == 'products_in_stock':
-            #product_sizes = Size.objects.filter(qty__gt=0)
-            #print(product_sizes)
             return Product.objects.filter(product_sizes__qty__gt=0, is_active=True) 
         if self.action == 'product_by_category':
             print(self.kwargs['slug'])
@@ -96,13 +90,6 @@ class ProductViewSet(
         result_page = paginator.paginate_queryset(products, request)
         serializer = ProductInStockModelSerializer(result_page, many=True)
         return paginator.get_paginated_response(serializer.data)
-        
-        
-        """ 
-        products = self.filter_queryset(self.get_queryset())
-        serializer = ProductModelSerializer(products, many=True).data
-        return Response(serializer, status=status.HTTP_200_OK)
-        """
     
     @action(detail=False, methods=['get'])
     def list_random_products(self, request, *args, **kwargs):

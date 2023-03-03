@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     # Local apps
     'ecommerce.apps.EcommerceConfig',
     'users.apps.UsersConfig',
+    'courses.apps.CoursesConfig',
 
     # Third party apps
     'rest_framework',

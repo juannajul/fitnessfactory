@@ -21,8 +21,7 @@ class SizeInStockModelSerializer(serializers.BaseSerializer):
                 'product': instance.product.pk,
                 'size': instance.size,
                 'qty': instance.qty
-            }
-         
+            }     
 
 class CreateSizeSerializer(serializers.ModelSerializer):
     """Create size serializer."""

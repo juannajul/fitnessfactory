@@ -23,7 +23,6 @@ class UserModelSerializer(serializers.ModelSerializer):
             'email',
         )
 
-
 class UserSignUpModelSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     password_confirmation = serializers.CharField(write_only=True)
@@ -52,7 +51,6 @@ class UserUpdatePasswordModelSerializer(serializers.ModelSerializer):
     email  = serializers.CharField()
     password = serializers.CharField(write_only=True)
     password_confirmation = serializers.CharField(write_only=True)
-
     def validate(self, data):
         if data['password'] != data['password_confirmation']:
             raise serializers.ValidationError('Passwords must match.')
