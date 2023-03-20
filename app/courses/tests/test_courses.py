@@ -10,17 +10,6 @@ from rest_framework.test import APITestCase
 from courses.models.categories import Category
 from courses.models.courses import Course
 from users.models.users import User
-    # title = models.CharField(max_length=255, verbose_name='Course Title')
-    # slug = models.SlugField(max_length=255, unique=True, verbose_name='Course Slug')
-    # category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='course_category')
-    # description = models.TextField(max_length=450, blank=True, verbose_name="Brand descrition")
-    # thumbnail = models.ImageField(upload_to='media/courses/thumbnail/', default='media/courses/thumbnail/default.jpg', verbose_name='Course thumbnail')
-    # video = models.FileField(upload_to='media/courses/videos/', blank=True, null=True, verbose_name= 'Course Video')
-    # video_url = models.URLField(max_length=255, blank=True, null=True, verbose_name='Course Video Url')
-    # author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='course_user')
-    # created_at = models.DateTimeField(auto_now_add=True)
-    # is_active = models.BooleanField(default=True)
-
 PASSWORD = 'pAssw0rd!'
 
 class CreateCourseTest(APITestCase):
