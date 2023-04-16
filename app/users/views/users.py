@@ -20,6 +20,7 @@ from users.models.users import User
 
 class UserViewSet(mixins.RetrieveModelMixin,
                     mixins.UpdateModelMixin,
+                    mixins.ListModelMixin,
                     viewsets.GenericViewSet):
     """User view set.
     Handle sign up, login and account verification.
@@ -75,10 +76,9 @@ class UserViewSet(mixins.RetrieveModelMixin,
             'user': UserModelSerializer(user).data,
             'access_token': token
         }
-        
         response = Response(data, status=status.HTTP_200_OK)
-        response.set_cookie(key='access_token', value=token, httponly=True, samesite='None')
-        print(data)
+        # response.set_cookie(key='access_token', value=token, httponly=True, samesite='None')
+        # print(data)
         return response
 
     @action(detail=False, methods=['get'])
@@ -88,3 +88,4 @@ class UserViewSet(mixins.RetrieveModelMixin,
         response.delete_cookie(key='access_token')
         print("sesion cerrada")
         return response
+    

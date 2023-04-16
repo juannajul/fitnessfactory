@@ -1,6 +1,10 @@
 # Pull official base image
 FROM python:3.9.6-alpine
 
+RUN apk add --no-cache tzdata
+ENV TZ=America/Caracas
+RUN cp /usr/share/zoneinfo/$TZ /etc/localtime
+
 # Set work directory
 WORKDIR /usr/src/app
 

@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+import datetime
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
@@ -8,9 +9,12 @@ ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
 USE_TZ = True 
 TIME_ZONE = 'America/Caracas'
-
+LANGUAGE_CODE = 'en-us'
+SITE_ID = 1
+USE_I18N = True
+USE_L10N = True
+print(f'{datetime.datetime.now()} hora actual')
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
